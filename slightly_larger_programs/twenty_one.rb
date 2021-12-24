@@ -31,10 +31,12 @@ def busted?(cards)
   total(cards) > 21
 end
 
+player_cards = []
+dealer_cards = []
+
 loop do #main loop
   cards = initialize_deck
-  player_cards = []
-  dealer_cards = []
+ 
 
   2.times do
     player_cards << cards.pop

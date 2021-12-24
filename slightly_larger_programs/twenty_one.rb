@@ -1,47 +1,72 @@
-# 1. Initialize deck
-# 2. Deal cards to players and dealer  
-# 3. Player turn: hit or stay
-#     -repeat until bust or "stay"
-# 4. If player bust, dealer wins 
-# 5. Dealer turn: hit or stay
-#   - repeat until total >= 17
-# 6. If dealer bust, player wins
-# 7. Compare cards and declare winner 
-# 8. Ask player if they woul like to play again?
+
+SUITS = ['H', 'D', 'S', 'C']
+VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 def prompt(message)
   puts "==> #{message}"
 end
 
 
+def initialize_deck
+  SUITS.product(VALUES).shuffle
+end
+
+def total(cards)
+  card_pts = []
+  cards.map {|card| card_pts << card[1]}
+  total = 0
+  card_pts.each do |pts|
+    if pts == 'A'
+      total += 11 
+    elsif pts.to_i == 0
+      total += 10
+    else  
+      total += pts.to_i
+    end
+  end
+  total
+end
+
+def busted?(cards)
+  total(cards) > 21
+end
+
+loop do #main loop
+  cards = initialize_deck
+  player_cards = []
+  dealer_cards = []
+
+  2.times do
+    player_cards << cards.pop
+    dealer_cards << cards.pop
+  end
 
 
-cards = [['D', 'A'],['D', 'K'],['D', 'Q'], ['D', 'J'], ['D', 10], ['D', 9], ['D', 8],
-        ['D', 7], ['D', 6], ['D', 5], ['D', 4], ['D', 3], ['D', 2], 
-        ['C', 'A'],['C', 'K'],['C', 'Q'], ['C', 'J'], ['C', 10], ['C', 9], ['C', 8],
-        ['C', 7], ['C', 6], ['C', 5], ['C', 4], ['C', 3], ['C', 2],
-        ['H', 'A'],['H', 'K'],['H', 'Q'], ['H', 'J'], ['H', 10], ['D', 9], ['H', 8],
-        ['H', 7], ['H', 6], ['H', 5], ['H', 4], ['H', 3], ['H', 2],
-        ['S', 'A'],['S', 'K'],['S', 'Q'], ['S', 'J'], ['S', 10], ['S', 9], ['S', 8],
-        ['S', 7], ['S', 6], ['S', 5], ['S', 4], ['S', 3], ['S', 2]]
-        
+  prompt "-------------Welcome to Twenty-One--------------"
+  prompt "Dealer has: #{dealer_cards[0]} and unknown card"
+  prompt "You have: #{player_cards} and your total is #{total(player_cards)}"
 
+  loop do #loop asks player to hit or stay and increments cards and total if they choose to hit
+    player_choice = nil
+    loop do
+      prompt "Would you like to hit or stay? ('h' for hit 's' for 'stay')"
+      player_choice = gets.chomp.downcase
+      break if player_choice == 'h' || player_choice == 's'
+      prompt "You must enter 's or 'h"
+    end
 
-cards_copy = cards
+    if player_choice == 'h'
+      player_cards << cards.pop
+      prompt "You now have: #{player_cards}. Your total is #{total(player_cards)}"
+    elsif player_choice == 's' || busted?(player_cards)
+      prompt "You're game is over"
+      break
+    end
+  end
 
-player_card_1 = cards_copy.sample
-cards_copy.delete(player_card_1)
-
-player_card_2 = cards_copy.sample
-cards_copy.delete(player_card_2)
-
-dealer_card_1 = cards_copy.sample
-cards_copy.delete(dealer_card_1)
-
-dealer_card_2 = cards_copy.sample
-cards_copy.delete(dealer_card_2)
-
-
-prompt "Dealers has: #{dealer_card_1[1]} and unknown card"
-prompt "You have: #{player_card_1[1]} and #{player_card_2[1]}"
-  
+  if busted?(player_cards)
+    puts "You busted. Womp Womp. Would you like to play again? ('y' or 'n')"
+    answer = gets.chomp.downcase
+    break if answer != 'y'
+  end
+end

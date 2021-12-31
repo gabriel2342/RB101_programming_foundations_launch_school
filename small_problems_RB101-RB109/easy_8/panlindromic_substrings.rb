@@ -12,7 +12,6 @@ def leading_substrings(string)
 end
 
 def substrings(string)
-  #string = string
   newarr = []
   loop do
     newarr << leading_substrings(string)

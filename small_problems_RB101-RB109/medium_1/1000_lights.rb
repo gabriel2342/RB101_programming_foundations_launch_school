@@ -1,35 +1,32 @@
 
-def light_switches(n)
+def switch_on_or_off(array, n)
+  for i in 2..array.size
+    if i%n == 0
+      array[i-1] == "OFF"
+    else
+      array[i-1] == "ON"
+    end
+  end
+end
+
+
+def intialize_lights(n)
   switches = []
   n.times do
     switches << "ON"
-  end
-
-
-=begin
-initialize lights
-turn on every other light
-=end
-
-  count = 2
-  loop do 
-    (0..n).step(count).each do |i|
-      
-      if switches[i] == 'ON' && i !=0
-        switches[i] = 'OFF'
-      elsif switches[i] == 'OFF' 
-        switches[i] == 'ON'
-      end
-      #p switches
-    end
-    count +=1
-    p switches
-    break if count == n
-  end
-
-
-
   switches
+  end
 end
 
-light_switches(5)
+def toggle_lights(n)
+  lights = intialize_lights(n)
+  counter = 2
+  loop do 
+    lights = switch_on_or_off(lights, counter)
+    counter += 1
+    break if counter == n
+  end
+end 
+
+
+p toggle_lights(5)

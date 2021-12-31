@@ -17,8 +17,6 @@ end
   newarr = []
   string.each_char {|char| newarr << char}
   newarr = newarr.delete_if {|char| char == ':'}.map(&:to_i).join.to_i
-  #newarr = newarr
-  #newarr = newarr.join.to_i
 
   p newarr
  end

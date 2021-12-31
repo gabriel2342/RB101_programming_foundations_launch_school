@@ -2,7 +2,6 @@
 def show_multiplicative_average(array)
   sum = 1
   array.each {|num| sum = num.to_f*sum}
-  
   "==> The result is #{(sum/array.size).round(3)}"
 end
 

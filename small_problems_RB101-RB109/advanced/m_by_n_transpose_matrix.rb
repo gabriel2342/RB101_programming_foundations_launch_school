@@ -2,20 +2,14 @@ def transpose(matrix)
  #switch the row and column size for our new matrix 
   new_col_sze =  matrix.size
   new_row_sze =  matrix[0].size
-  nest_array = []
   new_matrix = []
   
-#initialize our nested array i.e row
-  new_col_sze.times do 
-    nest_array << 0
-  end
-
 #initialize our new matrix
   new_row_sze.times do
-    new_matrix << nest_array
+    new_matrix << Array.new(new_col_sze)
   end
 
-#There's a bug here that I can't find.
+#iterate through both our og matrix and new_matrix and switch values
   (0..new_row_sze - 1).each do |row_index|
     (0..new_col_sze - 1).each do |col_index|
       new_matrix[row_index][col_index] = matrix[col_index][row_index]

@@ -2,9 +2,8 @@
 def triangle(num1, num2, num3)
   numarr = [num1, num2, num3].sort
   
-  if numarr[0] + numarr[1] <= numarr[2] 
-    return :invalid
-  end
+  numarr[0] + numarr[1] <= numarr[2] ? :invalid : next
+    
 
   if num1 == num2 && num2 == num3 
     :equilateral
